@@ -81,7 +81,7 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
             date_container = date_containers[0]
             dates = date_container.findAll("p",{}) 
             for i in range(len(dates) - 1):
-                event_date = event_date + dates[i].text.strip()
+                event_date = dates[i].text.strip()
         else:
             event_date = "N/A"
         
@@ -108,7 +108,7 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
             description = description_container.findAll("p",{})
             count = len(description)
             for i in range(0,count):
-                event_description = event_description + description[i].text.strip()
+                event_description = description[i].text.strip()
         else:
             event_description = "N/A"
         
