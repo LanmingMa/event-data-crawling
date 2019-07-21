@@ -29,6 +29,6 @@ def __getFilePath(file: str, fileType: str, eventTopic: EventTopic, countryName:
 
 ### Returns the "rootFolder/data" Path where [file] is the path of "rootFolder/[code folder]/file.py"
 def __changeToDataFolder(file: str) -> Path:
-    currentDirectory = Path(os.path.abspath(__file__)).parents[1]
+    currentDirectory = Path(os.path.abspath(file)).parents[1]
     dataFolderPath: Path = Path(currentDirectory / 'data' )
     return dataFolderPath
