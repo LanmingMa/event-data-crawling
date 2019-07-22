@@ -95,11 +95,6 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
         else:
             event_location = "N/A"
         
-
-        #ABOUT THIS EVENT
-        #about_containers = page_soup.findAll("div", {"class":"structured-content-rich-text structured-content__module l-align-left l-mar-vert-6 l-sm-mar-vert-4 text-body-medium"})
-        #len(about_containers)
-        
         # DESCRIPTION OF THE EVENT
         description_containers = page_soup.findAll("div", {"class":"g-cell g-cell-10-12 g-cell-md-1-1"})
         if description_containers:
@@ -111,6 +106,14 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
                 event_description = description[i].text.strip()
         else:
             event_description = "N/A"
+
+        # EVENT LINKS 
+        event_links_containers = page_soup.find("div", {"class":"g-cell g-cell-1-1 l-align-center"})
+        if event_links_containers:
+            if event_links.a:
+                event_links = event_links_containers.a.get('href')
+        else:
+            event_links = "N/A"
         
         #TAGS
         #tags_containers = page_soup.find_all
@@ -124,7 +127,7 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
         # print("Event Description: " + event_description)    
 
         # write to file
-        outputFile.write(event_title + "," + event_organizer + "," + event_cost + "," + event_date.replace(",","|") + "," + event_location.replace(",","|") +"," + event_description.replace(",","|") + "\n")
+        outputFile.write(event_title + "," + event_organizer + "," + event_cost + "," + event_date.replace(",","|") + "," + event_location.replace(",","|") +"," + event_description.replace(",","|") + event_links + "\n")
         
     outputFile.close()
     return outputFileName
