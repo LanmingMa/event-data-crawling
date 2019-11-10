@@ -1,12 +1,13 @@
 import os
 from pathlib import Path
 
+# from doc_name import functuon
 from FindLinks import findLinks, __make_soup
 from CrawlParsedData import crawlLink
 from Types import CountryName, EventTopic
 
 countryList = [CountryName("United States", "united-states")]
-topicInfoList = [EventTopic("finance", 2), EventTopic("technology", 2)]
+topicInfoList = [EventTopic("ai", 2), EventTopic("technology", 2)]
 
 ### Step 1: find all links by going over [countryList] and [topicInfoList]
 ###         and crawl each link

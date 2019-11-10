@@ -32,7 +32,7 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
     # create output file
     outputFileName = getParsedResultsFilePath(__file__, eventTopic, countryName)
     outputFile = open(outputFileName, "w", encoding = "utf-8")
-    headers = "Event_Name,Organizer,Cost,Date_and_Time,Location,About_Event\n"
+    headers = "Event_Name,Organizer,Cost,Date_and_Time,Location,About_Event,Event_Website\n"
     outputFile.write(headers)
 
     for i in range(0,len(linkList)):
@@ -108,12 +108,11 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
             event_description = "N/A"
 
         # EVENT LINKS 
-        event_links_containers = page_soup.find("div", {"class":"g-cell g-cell-1-1 l-align-center"})
-        if event_links_containers:
-            if event_links.a:
-                event_links = event_links_containers.a.get('href')
+        event_webs_containers = page_soup.find("div", {"class":"g-cell g-cell-1-1 l-align-center"})
+        if event_webs_containers:
+                event_websites = event_webs_containers.a.get('href')
         else:
-            event_links = "N/A"
+            event_websites = "N/A"
         
         #TAGS
         #tags_containers = page_soup.find_all
@@ -127,7 +126,7 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
         # print("Event Description: " + event_description)    
 
         # write to file
-        outputFile.write(event_title + "," + event_organizer + "," + event_cost + "," + event_date.replace(",","|") + "," + event_location.replace(",","|") +"," + event_description.replace(",","|") + event_links + "\n")
+        outputFile.write(event_title + "," + event_organizer + "," + event_cost + "," + event_date.replace(",","|") + "," + event_location.replace(",","|") +"," + event_description.replace(",","|") + event_websites + "\n")
         
     outputFile.close()
     return outputFileName
