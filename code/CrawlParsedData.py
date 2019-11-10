@@ -32,7 +32,7 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
     # create output file
     outputFileName = getParsedResultsFilePath(__file__, eventTopic, countryName)
     outputFile = open(outputFileName, "w", encoding = "utf-8")
-    headers = "Event_Name,Organizer,Cost,Date_and_Time,Location,About_Event\n"
+    headers = "Event_Name,Organizer,Cost,Date_and_Time,Location,About_Event,Event_Website\n"
     outputFile.write(headers)
 
     for i in range(0,len(linkList)):
@@ -95,11 +95,6 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
         else:
             event_location = "N/A"
         
-
-        #ABOUT THIS EVENT
-        #about_containers = page_soup.findAll("div", {"class":"structured-content-rich-text structured-content__module l-align-left l-mar-vert-6 l-sm-mar-vert-4 text-body-medium"})
-        #len(about_containers)
-        
         # DESCRIPTION OF THE EVENT
         description_containers = page_soup.findAll("div", {"class":"g-cell g-cell-10-12 g-cell-md-1-1"})
         if description_containers:
@@ -111,6 +106,13 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
                 event_description = description[i].text.strip()
         else:
             event_description = "N/A"
+
+        # EVENT LINKS 
+        event_webs_containers = page_soup.find("div", {"class":"g-cell g-cell-1-1 l-align-center"})
+        if event_webs_containers:
+                event_websites = event_webs_containers.a.get('href')
+        else:
+            event_websites = "N/A"
         
         #TAGS
         #tags_containers = page_soup.find_all
@@ -124,7 +126,7 @@ def crawlLink(eventTopic: EventTopic, countryName: CountryName) -> Path:
         # print("Event Description: " + event_description)    
 
         # write to file
-        outputFile.write(event_title + "," + event_organizer + "," + event_cost + "," + event_date.replace(",","|") + "," + event_location.replace(",","|") +"," + event_description.replace(",","|") + "\n")
+        outputFile.write(event_title + "," + event_organizer + "," + event_cost + "," + event_date.replace(",","|") + "," + event_location.replace(",","|") +"," + event_description.replace(",","|") + event_websites + "\n")
         
     outputFile.close()
     return outputFileName
